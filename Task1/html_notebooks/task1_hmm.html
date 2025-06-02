@@ -7524,13 +7524,24 @@ a.anchor-link {
 <!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
 <main>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bfa6a739">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h1 id="TASK-1:-Symbolic,-Unconditioned-Generation-on-NES-MIDI">TASK 1: Symbolic, Unconditioned Generation on NES MIDI<a class="anchor-link" href="#TASK-1:-Symbolic,-Unconditioned-Generation-on-NES-MIDI">¶</a></h1>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0524b114">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Hidden-Markov-model">Hidden Markov model<a class="anchor-link" href="#Hidden-Markov-model">¶</a></h1>
+<h2 id="Hidden-Markov-model">Hidden Markov model<a class="anchor-link" href="#Hidden-Markov-model">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7564,7 +7575,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="MIDI-file-characteristics">MIDI file characteristics<a class="anchor-link" href="#MIDI-file-characteristics">¶</a></h1>
+<h2 id="MIDI-file-characteristics">MIDI file characteristics<a class="anchor-link" href="#MIDI-file-characteristics">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7734,7 +7745,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Hidden-Markov-Model">Hidden Markov Model<a class="anchor-link" href="#Hidden-Markov-Model">¶</a></h1>
+<h2 id="Hidden-Markov-Model">Hidden Markov Model<a class="anchor-link" href="#Hidden-Markov-Model">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7743,11 +7754,11 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># uses MIDI synth </span>
-<span class="c1"># 80 synth lead (square), 81 synth lead (sawtooth), 38 synth bass, 121 Breath Noise</span>
+<span class="c1"># 80 synth lead (pulse square), 81 synth lead (pulse sawtooth), 38 synth bass (triangle), 121 Breath (noise)</span>
 
 <span class="n">NAME_TO_PROGRAM</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">'p1'</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
@@ -7767,12 +7778,14 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># model variables</span>
 <span class="n">TICKS_PER_BEAT</span> <span class="o">=</span> <span class="mi">22050</span>
-<span class="c1"># quantization of durations to downsize observations</span>
+<span class="c1"># quantization of durations to downsize observation space</span>
+<span class="c1"># 1 is whole note, 0.25 is quarter note, etc.</span>
+<span class="c1"># chosen by personal discretion after </span>
 <span class="n">DURATION_VALUES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">TICKS_PER_BEAT</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">]]</span>
 <span class="c1"># hidden state count</span>
 <span class="n">HMM_COMPONENTS</span> <span class="o">=</span> <span class="mi">16</span>
@@ -7788,10 +7801,11 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quantize_duration</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># quantize note durations as specified bins in DURATION_VALUES</span>
+<span class="k">def</span> <span class="nf">quantize_duration</span><span class="p">(</span><span class="n">duration</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">DURATION_VALUES</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">duration</span> <span class="o">-</span> <span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -7803,10 +7817,13 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quantize_velocity</span><span class="p">(</span><span class="n">velocity</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># quantize note velocities to downsize observation space</span>
+<span class="c1"># also reduces jarring transitions between volume</span>
+<span class="c1"># the original velocities are within: array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15])</span>
+<span class="k">def</span> <span class="nf">quantize_velocity</span><span class="p">(</span><span class="n">velocity</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">velocity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="mi">0</span>
     <span class="k">elif</span> <span class="n">velocity</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span> <span class="k">return</span> <span class="mi">2</span>
     <span class="k">elif</span> <span class="n">velocity</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">:</span> <span class="k">return</span> <span class="mi">4</span>
@@ -7823,10 +7840,12 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [35]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># note in format (pitch, duration, velocity)</span>
+<span class="c1"># return a dictionary of sequences per instrument</span>
+<span class="c1"># accounts for REST durations </span>
 <span class="k">def</span> <span class="nf">extract_quantized_notes</span><span class="p">(</span><span class="n">midi_path</span><span class="p">):</span>
     <span class="n">midi</span> <span class="o">=</span> <span class="n">MidiFile</span><span class="p">(</span><span class="n">midi_path</span><span class="p">)</span>
     <span class="n">notes_by_instr</span> <span class="o">=</span> <span class="p">{</span><span class="n">instr</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">instr</span> <span class="ow">in</span> <span class="n">INSTRUMENTS</span><span class="p">}</span>
@@ -7857,10 +7876,11 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [36]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">extract_quantized_notes</span><span class="p">(</span><span class="n">mid_fps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># example output of quantized format</span>
+<span class="n">extract_quantized_notes</span><span class="p">(</span><span class="n">mid_fps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -7871,7 +7891,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[36]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>{'p1': [(0, 5512, 0),
   (65, 16537, 8),
@@ -7904,10 +7924,12 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [37]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">midi</span> <span class="o">=</span> <span class="n">MidiFile</span><span class="p">(</span><span class="n">mid_fps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># shows that the correct instruments are identified </span>
+<span class="c1"># unused instruments are indicated by an empty sequence </span>
+<span class="n">midi</span> <span class="o">=</span> <span class="n">MidiFile</span><span class="p">(</span><span class="n">mid_fps</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">midi</span><span class="o">.</span><span class="n">instruments</span>
 </pre></div>
 </div>
@@ -7919,7 +7941,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[37]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[ ]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
 <pre>[Instrument(program=80, is_drum=False, name=p1) - 9 notes,
  Instrument(program=38, is_drum=False, name=tr) - 9 notes]</pre>
@@ -7932,7 +7954,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># enumerate observations</span>
@@ -7941,7 +7963,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
     <span class="n">inv_vocab</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">vocab</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
     <span class="k">return</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">inv_vocab</span>
 
-<span class="c1"># convert observations to value</span>
+<span class="c1"># convert token to value</span>
 <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">notes</span><span class="p">,</span> <span class="n">vocab</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vocab</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">notes</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">vocab</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -7996,7 +8018,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [40]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># load dataset</span>
@@ -8005,6 +8027,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <span class="n">mid_fps</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">'nesmdb_midi/train/*'</span><span class="p">)</span>
 <span class="n">mid_fps</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">mid_fps</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">mid_fps</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
 
+<span class="c1"># extract all sequences per midi file</span>
 <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">mid_fps</span><span class="p">:</span>
     <span class="n">notes</span> <span class="o">=</span> <span class="n">extract_quantized_notes</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">instr</span> <span class="ow">in</span> <span class="n">INSTRUMENTS</span><span class="p">:</span>
@@ -8036,7 +8059,7 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [42]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Train HMMs</span>
@@ -8046,9 +8069,11 @@ Instrument(program=121, is_drum=True, name=no) - 25 notes
 <span class="k">for</span> <span class="n">instr</span> <span class="ow">in</span> <span class="n">INSTRUMENTS</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Training HMM for </span><span class="si">{</span><span class="n">instr</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     
+    <span class="c1"># flatten the list of sequences per instrument</span>
     <span class="n">flat_notes</span> <span class="o">=</span> <span class="p">[</span><span class="n">note</span> <span class="k">for</span> <span class="n">song</span> <span class="ow">in</span> <span class="n">all_instr_notes</span><span class="p">[</span><span class="n">instr</span><span class="p">]</span> <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">song</span><span class="p">]</span>
     <span class="n">vocab</span><span class="p">,</span> <span class="n">inv_vocab</span> <span class="o">=</span> <span class="n">build_vocab</span><span class="p">(</span><span class="n">flat_notes</span><span class="p">)</span>
     
+    <span class="c1"># encode the sequence using the vocabulary</span>
     <span class="n">encoded_sequences</span> <span class="o">=</span> <span class="p">[</span><span class="n">encode</span><span class="p">(</span><span class="n">song</span><span class="p">,</span> <span class="n">vocab</span><span class="p">)</span> <span class="k">for</span> <span class="n">song</span> <span class="ow">in</span> <span class="n">all_instr_notes</span><span class="p">[</span><span class="n">instr</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">song</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
     <span class="c1">#print(encoded_sequences)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">train_hmm</span><span class="p">(</span><span class="n">encoded_sequences</span><span class="p">)</span>
@@ -8081,7 +8106,7 @@ Training HMM for no
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Sequence-generation-and-log-likelihood">Sequence generation and log-likelihood<a class="anchor-link" href="#Sequence-generation-and-log-likelihood">¶</a></h1>
+<h2 id="Sequence-generation-and-log-likelihood">Sequence generation and log-likelihood<a class="anchor-link" href="#Sequence-generation-and-log-likelihood">¶</a></h2>
 </div>
 </div>
 </div>
@@ -8168,7 +8193,7 @@ Normalized log-likelihood: -2.3744022937124085
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="KL-Divergence-(pitch)">KL Divergence (pitch)<a class="anchor-link" href="#KL-Divergence-(pitch)">¶</a></h1>
+<h2 id="KL-Divergence-(pitch)">KL Divergence (pitch)<a class="anchor-link" href="#KL-Divergence-(pitch)">¶</a></h2>
 </div>
 </div>
 </div>

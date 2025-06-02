@@ -3,7 +3,7 @@
 <html lang="en">
 <head><meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>markov</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>markov_chain</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <style type="text/css">
     pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -7530,7 +7530,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Markov-chain">Markov chain<a class="anchor-link" href="#Markov-chain">¶</a></h1>
+<h2 id="Markov-chain">Markov chain<a class="anchor-link" href="#Markov-chain">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7558,10 +7558,12 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">TICKS_PER_BEAT</span> <span class="o">=</span> <span class="mi">22050</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># MIDI specs</span>
+<span class="n">TICKS_PER_BEAT</span> <span class="o">=</span> <span class="mi">22050</span>
+<span class="c1"># quantizations</span>
 <span class="n">DURATION_VALUES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">TICKS_PER_BEAT</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">,</span> <span class="mf">32.0</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -7637,10 +7639,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_markov_chain</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># constructs a unigram chain for a single instrument</span>
+<span class="k">def</span> <span class="nf">build_markov_chain</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
     <span class="n">transitions</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">Counter</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">transitions</span><span class="p">[</span><span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">tokens</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -7655,10 +7658,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_chains_for_all</span><span class="p">(</span><span class="n">mididir</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># builds and returns a chain for each instrument</span>
+<span class="k">def</span> <span class="nf">build_chains_for_all</span><span class="p">(</span><span class="n">mididir</span><span class="p">):</span>
     <span class="n">all_program_chains</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">mididir</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".mid"</span><span class="p">):</span>
@@ -7677,10 +7681,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">sample_next</span><span class="p">(</span><span class="n">transitions</span><span class="p">,</span> <span class="n">current_token</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># take an action</span>
+<span class="k">def</span> <span class="nf">sample_next</span><span class="p">(</span><span class="n">transitions</span><span class="p">,</span> <span class="n">current_token</span><span class="p">):</span>
     <span class="n">next_tokens</span> <span class="o">=</span> <span class="n">transitions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">current_token</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">next_tokens</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">transitions</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
@@ -7698,10 +7703,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">generate_sequence</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># samples for specified number of times</span>
+<span class="k">def</span> <span class="nf">generate_sequence</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
     <span class="n">current</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
     <span class="n">sequence</span> <span class="o">=</span> <span class="p">[</span><span class="n">current</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
@@ -7718,10 +7724,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">NAME_TO_PROGRAM</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># translational variables</span>
+<span class="n">NAME_TO_PROGRAM</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">'p1'</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span>
     <span class="s1">'p2'</span><span class="p">:</span> <span class="mi">81</span><span class="p">,</span>
     <span class="s1">'tr'</span><span class="p">:</span> <span class="mi">38</span><span class="p">,</span>
@@ -7744,10 +7751,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">save_multi_program_midi</span><span class="p">(</span><span class="n">program_sequences</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">ticks_per_beat</span><span class="o">=</span><span class="n">TICKS_PER_BEAT</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># merge tracks into one MIDI file</span>
+<span class="k">def</span> <span class="nf">save_multi_program_midi</span><span class="p">(</span><span class="n">program_sequences</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">ticks_per_beat</span><span class="o">=</span><span class="n">TICKS_PER_BEAT</span><span class="p">):</span>
     <span class="n">midi</span> <span class="o">=</span> <span class="n">MidiFile</span><span class="p">(</span><span class="n">ticks_per_beat</span><span class="o">=</span><span class="n">TICKS_PER_BEAT</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">program</span><span class="p">,</span> <span class="n">tokens</span> <span class="ow">in</span> <span class="n">program_sequences</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">track</span> <span class="o">=</span> <span class="n">Instrument</span><span class="p">(</span><span class="n">program</span><span class="o">=</span><span class="n">program</span><span class="p">,</span> <span class="n">is_drum</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">PROGRAM_TO_NAME</span><span class="p">[</span><span class="n">program</span><span class="p">])</span>
@@ -7802,7 +7810,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Sequence-generation-and-log-likelihood">Sequence generation and log-likelihood<a class="anchor-link" href="#Sequence-generation-and-log-likelihood">¶</a></h1>
+<h2 id="Sequence-generation-and-log-likelihood">Sequence generation and log-likelihood<a class="anchor-link" href="#Sequence-generation-and-log-likelihood">¶</a></h2>
 </div>
 </div>
 </div>
@@ -7811,11 +7819,13 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compute_markov_log_likelihood</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
-    <span class="c1"># Convert counts to probabilities</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># unlike hmmlearn HMM which has a built in log-likelihood scorer,</span>
+<span class="c1"># we need to score the chain ourselves</span>
+<span class="k">def</span> <span class="nf">compute_markov_log_likelihood</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">smoothing</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+    <span class="c1"># convert counts to probabilities</span>
     <span class="n">transition_probs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">state</span><span class="p">:</span> <span class="p">{</span>
             <span class="n">next_state</span><span class="p">:</span> <span class="n">count</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">next_states</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -7840,10 +7850,11 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">normalized_log_likelihood</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">chain</span><span class="p">):</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># normalize based on the length of a generated sequence</span>
+<span class="k">def</span> <span class="nf">normalized_log_likelihood</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">chain</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">compute_markov_log_likelihood</span><span class="p">(</span><span class="n">sequence</span><span class="p">,</span> <span class="n">chain</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sequence</span><span class="p">))</span>
 </pre></div>
 </div>
